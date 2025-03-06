@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <link href="../static/style.css" rel="stylesheet"/>
+  <link th:href="@{style.css}" rel="stylesheet" />
+</head>
+<body>
+<table>
+  <thead>
+  <tr>
+    <th>Название</th>
+    <th>Рейтинг</th>
+    <th>Комментарий</th>
+    <th>Обновить рейтинг</th>
+    <th>Обновить комментарий</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:if="${movies.empty}">
+    <td colspan="5">Фильмы не найдены</td>
+  </tr>
+  <tr th:each="movie : ${movies}">
+    <td><span th:text="${movie.name}"></span></td>
+    <td><span th:text="${movie.rating}"></span></td>
+    <td><span th:text="${movie.comment}"></span></td>
+    <td>
+      <form th:action="@{'/movies/' + ${movie.id} + '/rating'}" method="post">
+        <input type="number" name="rating" min="1" max="10" required>
+        <button type="submit">Обновить</button>
+      </form>
+    </td>
+    <td>
+      <form th:action="@{'/movies/' + ${movie.id} + '/comment'}" method="post">
+        <input type="text" name="comment" th:value="${movie.comment}" required>
+        <button type="submit">Обновить</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="container">
+  <h3>Добавить фильм</h3>
+  <form th:action="@{/movies/add}" th:object="${movie}" method="post">
+    <label for="name">Название</label>
+    <input type="text" id="name" th:field="*{name}" required>
+
+    <label for="rating">Рейтинг от 1 до 5</label>
+    <input type="number" id="rating" th:field="*{rating}" required>
+
+    <label for="comment">Комментарий</label>
+    <textarea id="comment" th:field="*{comment}"></textarea>
+
+    <button type="submit">Добавить</button>
+  </form>
+</div>
+
+<div class="container">
+  <button onclick="location.href='/movies'">Перейти к фильмам</button>
+  <button onclick="location.href='/recommendations'">Перейти к рекомендациям</button>
+  <button onclick="location.href='/recommendations/best'">Перейти к лучшим фильмам</button>
+</div>
+</body>
