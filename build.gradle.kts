@@ -16,10 +16,30 @@ repositories {
 }
 
 dependencies {
+    // Spring Boot Starter Web
     implementation("org.springframework.boot:spring-boot-starter-web")
+
+    // Thymeleaf
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+    // Jackson для поддержки JSON в Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
+    // Kotlin Reflection
     implementation("org.jetbrains.kotlin:kotlin-reflect")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // Spring Boot Starter Test
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
+    }
+
+    // Kotlin Standard Library
+    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+
+    // Дополнительные зависимости (если нужно)
+    // implementation("org.springframework.boot:spring-boot-starter-data-jpa") // Для работы с JPA
+    // implementation("org.springframework.boot:spring-boot-starter-security") // Для безопасности
+    // implementation("mysql:mysql-connector-java") // Для подключения к MySQL
 }
 
 tasks.withType<KotlinCompile> {
