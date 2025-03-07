@@ -3,26 +3,53 @@
 <head>
   <meta charset="UTF-8">
   <title>Список фильмов</title>
+  <link href="../static/style.css" rel="stylesheet"/>
+  <link th:href="@{style.css}" rel="stylesheet" />
 </head>
 <body>
-<h1>Список фильмов</h1>
-<form th:action="@{/api/movies}" th:object="${movie}" method="post">
+<h2>Список фильмов</h2>
+
+<!-- Форма для добавления нового фильма -->
+<h3>Добавить новый фильм</h3>
+<form action="/api/movies/add" method="post" th:object="${movie}">
   <label for="name">Название:</label>
-  <input type="text" id="name" th:field="*{name}" required>
-
+  <input type="text" id="name" th:field="*{name}" required/>
+  <br/>
   <label for="rating">Рейтинг:</label>
-  <input type="number" id="rating" th:field="*{rating}" min="1" max="10" required>
-
+  <input type="number" id="rating" th:field="*{rating}" step="0.1" required/>
+  <br/>
   <label for="comment">Комментарий:</label>
-  <textarea id="comment" th:field="*{comment}"></textarea>
-
-  <button type="submit">Добавить фильм</button>
+  <textarea id="comment" th:field="*{comment}" required></textarea>
+  <br/>
+  <button type="submit">Добавить</button>
 </form>
 
-<div>
-  <h2>Фильмы</h2>
-  <p th:if="${movie == null}">Фильмы не найдены.</p>
-  <p th:if="${movie != null}">Фильм: <span th:text="${movie.name}"></span></p>
+<!-- Таблица для отображения списка фильмов -->
+<h3>Рекомендации</h3>
+<table>
+  <thead>
+  <tr>
+    <th>Название</th>
+    <th>Рейтинг</th>
+    <th>Комментарий</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:if="${movies == null || movies.empty}">
+    <td colspan="3">Фильмы не найдены</td>
+  </tr>
+  <tr th:each="movie : ${movies}">
+    <td><span th:text="${movie.name}"></span></td>
+    <td><span th:text="${movie.rating}"></span></td>
+    <td><span th:text="${movie.comment}"></span></td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="container">
+  <button onclick="location.href='/api/movies/add'">Добавить фильм</button>
+  <button onclick="location.href='/api/recommendations'">Перейти к рекомендациям</button>
+  <button onclick="location.href='/api/recommendations/best'">Перейти к лучшим фильмам</button>
 </div>
 </body>
 </html>

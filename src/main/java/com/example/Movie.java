@@ -1,11 +1,12 @@
 package com.example;
+import java.util.ArrayList;
 
 public class Movie {
     private String name;
-    private int rating;
+    public int rating;
     private String comment;
 
-    // Геттеры и сеттеры
+
     public String getName() {
         return name;
     }
