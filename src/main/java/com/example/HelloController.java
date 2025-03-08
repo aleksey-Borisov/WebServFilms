@@ -58,9 +58,10 @@ public class HelloController {
     @PostMapping("/movies/{id}/comment")
     public String updateComment(@PathVariable int id, @RequestParam String comment) {
 
-        if (DemoApplication.movies.size() > id) {
-            Movie movie = DemoApplication.movies.get(id);
-            movie.setComment(comment);
+        for (Movie movie : DemoApplication.movies) {
+            if (movie.getId() == id) {
+                movie.setComment(comment);
+            }
         }
         return "redirect:/api/movies";
     }
