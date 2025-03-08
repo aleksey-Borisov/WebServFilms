@@ -2,54 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Список фильмов</title>
-  <link href="../static/style.css" rel="stylesheet"/>
-  <link th:href="@{style.css}" rel="stylesheet" />
+  <title th:text="${isEdit} ? 'Редактировать фильм' : 'Добавить новый фильм'"></title>
 </head>
 <body>
-<h2>Список фильмов</h2>
+<h2 th:text="${isEdit} ? 'Редактировать фильм' : 'Добавить новый фильм'"></h2>
 
-<!-- Форма для добавления нового фильма -->
-<h3>Добавить новый фильм</h3>
-<form action="/api/movies/add" method="post" th:object="${movie}">
+<!-- Форма для добавления или редактирования фильма -->
+<form th:action="${isEdit} ? @{/api/movies/{id}/update(id=${movie.id})} : @{/api/movies/add}" method="post" th:object="${movie}">
   <label for="name">Название:</label>
-  <input type="text" id="name" th:field="*{name}" required/>
+  <input type="text" id="name" th:field="*{name}" required="${isEdit}"/>
   <br/>
   <label for="rating">Рейтинг:</label>
-  <input type="number" id="rating" th:field="*{rating}" step="0.1" required/>
+  <input type="number" id="rating" th:field="*{rating}" step="1" required/>
   <br/>
   <label for="comment">Комментарий:</label>
   <textarea id="comment" th:field="*{comment}" required></textarea>
   <br/>
-  <button type="submit">Добавить</button>
+  <button type="submit" th:text="${isEdit} ? 'Обновить' : 'Добавить'"></button>
 </form>
 
-<!-- Таблица для отображения списка фильмов -->
-<h3>Рекомендации</h3>
-<table>
-  <thead>
-  <tr>
-    <th>Название</th>
-    <th>Рейтинг</th>
-    <th>Комментарий</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:if="${movies == null || movies.empty}">
-    <td colspan="3">Фильмы не найдены</td>
-  </tr>
-  <tr th:each="movie : ${movies}">
-    <td><span th:text="${movie.name}"></span></td>
-    <td><span th:text="${movie.rating}"></span></td>
-    <td><span th:text="${movie.comment}"></span></td>
-  </tr>
-  </tbody>
-</table>
+<!-- Форма для обновления рейтинга -->
+<h3>Обновить рейтинг фильма</h3>
+<form th:action="@{/api/movies/{id}/rating(id=${movie.id})}" method="post">
+  <label for="newRating">Новый рейтинг:</label>
+  <input type="number" id="newRating" name="rating" step="1" required/>
+  <br/>
+  <button type="submit">Обновить рейтинг</button>
+</form>
 
-<div class="container">
-  <button onclick="location.href='/api/movies/add'">Добавить фильм</button>
-  <button onclick="location.href='/api/recommendations'">Перейти к рекомендациям</button>
-  <button onclick="location.href='/api/recommendations/best'">Перейти к лучшим фильмам</button>
-</div>
+<button onclick="location.href='/api/movies'">Назад к списку фильмов</button>
 </body>
 </html>

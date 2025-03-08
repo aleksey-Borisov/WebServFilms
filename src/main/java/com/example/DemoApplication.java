@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
     public static ArrayList<Movie> movies = new ArrayList<>();
     public static void main(String[] args) {
+
 //        ArrayList<Integer> filmsArray = new ArrayList<>();
         SpringApplication.run(DemoApplication.class, args);
     }

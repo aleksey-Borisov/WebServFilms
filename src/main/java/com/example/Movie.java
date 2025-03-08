@@ -1,12 +1,27 @@
 package com.example;
-import java.util.ArrayList;
 
 public class Movie {
+    private int id;
     private String name;
     public int rating;
     private String comment;
 
+//    public void Movie() {
+//        if (!DemoApplication.movies.isEmpty()) {
+//            Movie lastMovie = DemoApplication.movies.get(DemoApplication.movies.size() - 1);
+//            this.setId(lastMovie.getId() + 1);
+//        } else {
+//            this.setId(1);
+//        }
+//    }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
     public String getName() {
         return name;
     }
