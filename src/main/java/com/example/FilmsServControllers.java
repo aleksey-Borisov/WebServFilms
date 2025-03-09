@@ -6,15 +6,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
-import java.util.Arrays;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.Comparator;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Comparator;
 @Controller
 @RequestMapping("/api")
-public class HelloController {
+public class FilmsServControllers {
 
     @GetMapping("/movies/add")
     public String addMoviesGET(Model model) {
@@ -68,12 +69,35 @@ public class HelloController {
 
     @GetMapping("/recommendations")
     public String viewRecommendFilms(Model model) {
-//        Movie[] films = new Movie[DemoApplication.movies.size()];
-//        for (int i = 0; i < DemoApplication.movies.size(); i++) {
-//            films[i] = DemoApplication.movies.get(i);
-//        }
-//        Arrays.sort(films, Comparator.comparingInt(movie -> movie.rating));
-        model.addAttribute("movies", DemoApplication.movies);
+        Movie[] films = new Movie[DemoApplication.movies.size()];
+        DemoApplication.movies.toArray(films);
+        for (int i = 0; i < films.length - 1; i++) {
+            for (int j = 0; j < films.length - i - 1; j++) {
+                if (films[j].getRating() < films[j + 1].getRating()) {
+                    Movie temp = films[j];
+                    films[j] = films[j + 1];
+                    films[j + 1] = temp;
+                }
+            }
+        }
+        List<Movie> sortedMovies = Arrays.asList(films);
+
+        model.addAttribute("movies", sortedMovies );
+        return "recommendations";
+    }
+
+    @GetMapping("/recommendations/best")
+    public String viewBestFilms(Model model) {
+        List<Movie> bestFilms = new ArrayList<>();
+
+        for (Movie movie : DemoApplication.movies) {
+            // Если рейтинг фильма равен 5, добавляем его в список
+            if (movie.getRating() == 5) {
+                bestFilms.add(movie);
+            }
+        }
+
+        model.addAttribute("movies", bestFilms );
         return "recommendations";
     }
 
