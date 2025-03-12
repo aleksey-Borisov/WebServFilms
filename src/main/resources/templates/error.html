@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ошибка</title>
+    <link href="../static/style.css" rel="stylesheet"/>
+</head>
+<body>
+<h2>Произошла ошибка</h2>
+
+<div>
+    <p th:text="${errorMessage}"></p>
+    <p th:if="${errorCode}" th:text="'Код ошибки: ' + ${errorCode}"></p>
+</div>
+
+<div>
+    <h3>Дополнительная информация:</h3>
+    <p>Пожалуйста, свяжитесь с администратором, если ошибка повторяется.</p>
+</div>
+
+<button onclick="location.href='/api/movies'">Назад к списку фильмов</button>
+</body>
+</html>

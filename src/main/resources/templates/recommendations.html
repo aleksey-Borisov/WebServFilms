@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Список фильмов</title>
+  <link href="../static/style.css" rel="stylesheet"/>
+  <link th:href="@{style.css}" rel="stylesheet" />
+</head>
+<body>
+<h2>Рекомендации</h2>
+<table>
+  <thead>
+  <tr>
+    <th>Название</th>
+    <th>Рейтинг</th>
+    <th>Комментарий</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:if="${movies.empty}">
+    <td colspan="3">Фильмы не найдены</td>
+  </tr>
+  <tr th:each="movie : ${movies}">
+    <td><span th:text="${movie.name}"></span></td>
+    <td><span th:text="${movie.rating}"></span></td>
+    <td><span th:text="${movie.comment}"></span></td>
+  </tr>
+  </tbody>
+</table>
+
+<div class="container">
+  <button onclick="location.href='/movies'">Перейти к фильмам</button>
+  <button onclick="location.href='/recommendations'">Перейти к рекомендациям</button>
+  <button onclick="location.href='/recommendations/best'">Перейти к лучшим фильмам</button>
+</div>
+
+<div class="container">
+  <button onclick="location.href='/movies/add'">Добавить фильм</button>
+</div>
+
+</body>
+</html>
